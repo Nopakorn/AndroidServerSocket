@@ -19,6 +19,7 @@ import java.util.Enumeration;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -75,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
 
         }else if(btn.equals("a")){
-            //mBottomPanel.addView(mColorViews);
             Intent intent = new Intent(MainActivity.this, ViewAActivity.class);
             startActivity(intent);
 
@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         static final int SocketServerPORT = 8080;
         int count = 0;
         String btnName ="nothing...";
+        SocketServerReplyThread socketServerReplyThread;
         @Override
         public void run() {
 
@@ -112,16 +113,18 @@ public class MainActivity extends AppCompatActivity {
 
                 while (true) {
                     Socket socket = serverSocket.accept();
+
                     //TODO:Get input stream from client
                     InputStreamReader streamReader = new InputStreamReader(socket.getInputStream());
                     BufferedReader reader = new BufferedReader(streamReader);
                     btnName = reader.readLine();
-                    reader.close();
+                    //reader.close();
+                    socket.shutdownInput();
                     //--
+
                     count++;
                     message = "#" + count + " from " + socket.getInetAddress()
                             + ":" + socket.getPort() + "\n";
-
                     MainActivity.this.runOnUiThread(new Runnable() {
 
                         @Override
@@ -129,13 +132,16 @@ public class MainActivity extends AppCompatActivity {
                             msg.setText(message);
                             String send = btnName;
                             screenChange(count, send);
+
                         }
                     });
-//                    SocketServerReplyThread socketServerReplyThread = new SocketServerReplyThread(
-//                            socket, count);
-//                    socketServerReplyThread.run();
+                    socketServerReplyThread = new SocketServerReplyThread(socket,btnName);
+                    socketServerReplyThread.run();
 
                 }
+
+
+
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -148,46 +154,39 @@ public class MainActivity extends AppCompatActivity {
 
         private Socket hostThreadSocket;
         int cnt;
-
-        SocketServerReplyThread(Socket socket, int c) {
+        String response;
+        SocketServerReplyThread(Socket socket, String res) {
             hostThreadSocket = socket;
-            cnt = c;
+            response  = res;
         }
 
         @Override
         public void run() {
             OutputStream outputStream;
-            String msgReply = "Hello from Android-server, you are #" + cnt;
+            String msgReply = "from Android-server, # " + response;
 
             try {
+               // hostThreadSocket = new Socket("192.168.1.54", 8080);
                 outputStream = hostThreadSocket.getOutputStream();
                 PrintStream printStream = new PrintStream(outputStream);
                 printStream.print(msgReply);
+                Log.d("Server","Reply success: "+msgReply);
                 printStream.close();
-
-                message += "replayed: " + msgReply + "\n";
-
-                MainActivity.this.runOnUiThread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        msg.setText(message);
-                    }
-                });
-
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
                 message += "Something wrong! " + e.toString() + "\n";
+            }finally{
+                if(hostThreadSocket != null){
+                    try {
+                        hostThreadSocket.close();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
             }
 
-            MainActivity.this.runOnUiThread(new Runnable() {
-
-                @Override
-                public void run() {
-                    msg.setText(message);
-                }
-            });
         }
 
     }
