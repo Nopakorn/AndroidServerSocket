@@ -32,6 +32,8 @@
             android:label="@string/title_activity_view_c"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
+        <activity android:name=".BatteryActivity" >
+        </activity>
     </application>
 
 </manifest>

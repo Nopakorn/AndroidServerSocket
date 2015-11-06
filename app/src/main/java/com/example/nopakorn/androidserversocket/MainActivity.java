@@ -82,6 +82,9 @@ public class MainActivity extends AppCompatActivity {
         }else if(btn.equals("c")){
             Intent intent = new Intent(MainActivity.this, ViewCActivity.class);
             startActivity(intent);
+        }else if(btn.equals("batteryStart")){
+            Intent intent = new Intent(MainActivity.this, BatteryActivity.class);
+            startActivity(intent);
         }
 
     }
