@@ -80,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
 
         }else if(btn.equals("c")){
-
+            Intent intent = new Intent(MainActivity.this, ViewCActivity.class);
+            startActivity(intent);
         }
 
     }
