@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AndroidServerSocket</string>
+    <string name="viewa">A</string>
+    <string name="viewb">B</string>
+    <string name="title_activity_view_a">ViewAActivity</string>
+    <string name="title_activity_view_b">ViewBActivity</string>
+</resources>
