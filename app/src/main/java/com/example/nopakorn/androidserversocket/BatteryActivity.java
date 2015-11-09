@@ -1,8 +1,11 @@
 package com.example.nopakorn.androidserversocket;
 
+import android.content.SharedPreferences;
 import android.os.Handler;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,10 +21,17 @@ public class BatteryActivity extends AppCompatActivity {
     private int stateBattery;
     private int stateBattery2;
 
+    private SharedPreferences mPrefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_battery);
+//        if(savedInstanceState != null){
+//
+//            stateBattery = savedInstanceState.getInt("myStateBattery");
+//            stateBattery2 = savedInstanceState.getInt("myStateBattery2");
+//            Log.d("Server","state not null : "+stateBattery);
+//        }
 
         mMessage = (TextView) findViewById(R.id.message);
 
@@ -43,6 +53,7 @@ public class BatteryActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+
         handleB.post(runB);
         super.onResume();
     }
@@ -66,8 +77,7 @@ public class BatteryActivity extends AppCompatActivity {
     };
 
     public void initiateBattery() {
-        String tx = ""+stateBattery;
-        mMessage.setText(tx);
+        mMessage.setText("initiate battery");
 
         if(stateBattery == 1) {
             mBatteryYellowLine3.setVisibility(LinearLayout.VISIBLE);
@@ -80,30 +90,33 @@ public class BatteryActivity extends AppCompatActivity {
         }else if(stateBattery == 5){
             mBatteryGreenLine2.setVisibility(LinearLayout.VISIBLE);
         }else if(stateBattery == 6){
+            mMessage.setText("OK");
             mBatteryGreenLine1.setVisibility(LinearLayout.VISIBLE);
         }
+
         stateBattery++;
 
     }
 
     private void updateBattery() {
-        String tx = ""+stateBattery;
-        mMessage.setText(tx);
-
         if(stateBattery == 8){
             mBatteryGreenLine1.setVisibility(LinearLayout.INVISIBLE);
         }else if(stateBattery == 9){
             mBatteryGreenLine2.setVisibility(LinearLayout.INVISIBLE);
         }else if(stateBattery == 10){
             mBatteryGreenLine3.setVisibility(LinearLayout.INVISIBLE);
+            mMessage.setText("Charge");
         }else{
             if(stateBattery2 == 0 && stateBattery > 10){
+                mMessage.setText("Charge");
                 mBatteryYellowLine1.setVisibility(LinearLayout.INVISIBLE);
             }else if(stateBattery2 == 1){
                 mBatteryYellowLine1.setVisibility(LinearLayout.VISIBLE);
             }else if(stateBattery2 == 2){
                 mBatteryGreenLine3.setVisibility(LinearLayout.VISIBLE);
+                mMessage.setText("OK");
             }else if(stateBattery2 == 3){
+                mMessage.setText("Charge");
                 mBatteryGreenLine3.setVisibility(LinearLayout.INVISIBLE);
             }
         }
@@ -114,6 +127,22 @@ public class BatteryActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         handleB.removeCallbacks(runB);
+        finish();
         super.onPause();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d("Server","on save state");
+        outState.putInt("myStateBattery", stateBattery);
+        outState.putInt("myStateBattery2",stateBattery2);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        stateBattery = savedInstanceState.getInt("myStateBattery");
+        stateBattery2 = savedInstanceState.getInt("mySateBattery2");
     }
 }

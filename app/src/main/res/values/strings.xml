@@ -6,4 +6,5 @@
     <string name="title_activity_view_b">ViewBActivity</string>
     <string name="title_activity_view_c">ViewCActivity</string>
     <string name="message_battery">Message</string>
+    <string name="title_activity_batt2">Batt2Activity</string>
 </resources>

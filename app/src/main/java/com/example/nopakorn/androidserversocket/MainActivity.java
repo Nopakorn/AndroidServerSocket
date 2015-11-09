@@ -42,15 +42,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         info = (TextView) findViewById(R.id.info);
         infoip = (TextView) findViewById(R.id.infoip);
-        msg = (TextView) findViewById(R.id.msg);
-        textBtn = (TextView) findViewById(R.id.textFromBtn);
         infoip.setText(getIpAddress());
-
         mInflater = LayoutInflater.from(getApplicationContext());
-
-        mBottomPanel = (LinearLayout) findViewById(R.id.bottom_panel);
-        mColorViews = (LinearLayout) mInflater.inflate(R.layout.colorviews, null, false);
-        mColorViews2 = (LinearLayout) mInflater.inflate(R.layout.colorviews2, null, false);
         Thread socketServerThread = new Thread(new SocketServerThread());
         socketServerThread.start();
     }
@@ -69,22 +62,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void screenChange(int count, String btn){
-        textBtn.setText(btn);
-        mBottomPanel.removeAllViews();
-        if(btn.equals("b")){
-            Intent intent = new Intent(MainActivity.this, ViewBActivity.class);
+        if(btn.equals("a")){
+            Intent intent = new Intent(MainActivity.this, Batt1Activity.class);
             startActivity(intent);
 
-        }else if(btn.equals("a")){
-            Intent intent = new Intent(MainActivity.this, ViewAActivity.class);
+        }else if(btn.equals("b")){
+            Intent intent = new Intent(MainActivity.this, Batt2Activity.class);
             startActivity(intent);
 
         }else if(btn.equals("c")){
-            Intent intent = new Intent(MainActivity.this, ViewCActivity.class);
+            Intent intent = new Intent(MainActivity.this, Batt4Activity.class);
             startActivity(intent);
         }else if(btn.equals("batteryStart")){
             Intent intent = new Intent(MainActivity.this, BatteryActivity.class);
             startActivity(intent);
+
         }
 
     }
@@ -118,10 +110,8 @@ public class MainActivity extends AppCompatActivity {
                     InputStreamReader streamReader = new InputStreamReader(socket.getInputStream());
                     BufferedReader reader = new BufferedReader(streamReader);
                     btnName = reader.readLine();
-                    //reader.close();
                     socket.shutdownInput();
                     //--
-
                     count++;
                     message = "#" + count + " from " + socket.getInetAddress()
                             + ":" + socket.getPort() + "\n";
@@ -129,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
 
                         @Override
                         public void run() {
-                            msg.setText(message);
                             String send = btnName;
                             screenChange(count, send);
 
@@ -139,8 +128,6 @@ public class MainActivity extends AppCompatActivity {
                     socketServerReplyThread.run();
 
                 }
-
-
 
             } catch (IOException e) {
                 // TODO Auto-generated catch block
@@ -166,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
             String msgReply = "from Android-server, # " + response;
 
             try {
-               // hostThreadSocket = new Socket("192.168.1.54", 8080);
                 outputStream = hostThreadSocket.getOutputStream();
                 PrintStream printStream = new PrintStream(outputStream);
                 printStream.print(msgReply);
@@ -220,6 +206,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return ip;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 }
 

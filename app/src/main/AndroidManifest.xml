@@ -10,7 +10,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name=".MainActivity" >
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar1" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,21 +20,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ViewAActivity"
-            android:label="@string/title_activity_view_a"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:name=".BatteryActivity"
+            android:theme="@style/AppTheme.NoActionBar1" >
         </activity>
         <activity
-            android:name=".ViewBActivity"
-            android:label="@string/title_activity_view_b"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:name=".Batt1Activity"
+            android:theme="@style/AppTheme.NoActionBar1" >
         </activity>
         <activity
-            android:name=".ViewCActivity"
-            android:label="@string/title_activity_view_c"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:name=".Batt2Activity"
+            android:theme="@style/AppTheme.NoActionBar1" >
         </activity>
-        <activity android:name=".BatteryActivity" >
+        <activity android:name=".Batt4Activity"
+            android:theme="@style/AppTheme.NoActionBar1" >
         </activity>
     </application>
 
