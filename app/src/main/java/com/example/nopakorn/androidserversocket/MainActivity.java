@@ -29,9 +29,6 @@ public class MainActivity extends AppCompatActivity {
     String message = "";
     ServerSocket serverSocket;
 
-    private LinearLayout mColorViews;
-    private LinearLayout mColorViews2;
-    private LinearLayout mBottomPanel;
     private LayoutInflater mInflater;
 
 
@@ -62,17 +59,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void screenChange(int count, String btn){
-        if(btn.equals("a")){
+        if(btn.equals("batt1")){
             Intent intent = new Intent(MainActivity.this, Batt1Activity.class);
             startActivity(intent);
 
-        }else if(btn.equals("b")){
+        }else if(btn.equals("batt2")){
             Intent intent = new Intent(MainActivity.this, Batt2Activity.class);
             startActivity(intent);
 
-        }else if(btn.equals("c")){
+        }else if(btn.equals("batt3")){
+            Intent intent = new Intent(MainActivity.this, Batt3Activity.class);
+            startActivity(intent);
+
+        }else if(btn.equals("batt4")){
             Intent intent = new Intent(MainActivity.this, Batt4Activity.class);
             startActivity(intent);
+
         }else if(btn.equals("batteryStart")){
             Intent intent = new Intent(MainActivity.this, BatteryActivity.class);
             startActivity(intent);

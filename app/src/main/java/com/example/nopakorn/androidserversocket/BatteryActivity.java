@@ -22,6 +22,7 @@ public class BatteryActivity extends AppCompatActivity {
     private int stateBattery2;
 
     private SharedPreferences mPrefs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,15 +64,15 @@ public class BatteryActivity extends AppCompatActivity {
     private Runnable runB = new Runnable() {
         @Override
         public void run() {
-            if(stateBattery > 6){
-                if(stateBattery2 == 4){
+            if (stateBattery > 6) {
+                if (stateBattery2 == 4) {
                     stateBattery2 = 0;
                 }
                 updateBattery();
                 handleB.postDelayed(runB, 1000);
-            }else{
+            } else {
                 initiateBattery();
-                handleB.postDelayed(runB,300);
+                handleB.postDelayed(runB, 300);
             }
         }
     };
@@ -79,17 +80,17 @@ public class BatteryActivity extends AppCompatActivity {
     public void initiateBattery() {
         mMessage.setText("initiate battery");
 
-        if(stateBattery == 1) {
+        if (stateBattery == 1) {
             mBatteryYellowLine3.setVisibility(LinearLayout.VISIBLE);
-        }else if(stateBattery == 2){
+        } else if (stateBattery == 2) {
             mBatteryYellowLine2.setVisibility(LinearLayout.VISIBLE);
-        }else if(stateBattery == 3){
+        } else if (stateBattery == 3) {
             mBatteryYellowLine1.setVisibility(LinearLayout.VISIBLE);
-        }else if(stateBattery == 4){
+        } else if (stateBattery == 4) {
             mBatteryGreenLine3.setVisibility(LinearLayout.VISIBLE);
-        }else if(stateBattery == 5){
+        } else if (stateBattery == 5) {
             mBatteryGreenLine2.setVisibility(LinearLayout.VISIBLE);
-        }else if(stateBattery == 6){
+        } else if (stateBattery == 6) {
             mMessage.setText("OK");
             mBatteryGreenLine1.setVisibility(LinearLayout.VISIBLE);
         }
@@ -99,23 +100,23 @@ public class BatteryActivity extends AppCompatActivity {
     }
 
     private void updateBattery() {
-        if(stateBattery == 8){
+        if (stateBattery == 8) {
             mBatteryGreenLine1.setVisibility(LinearLayout.INVISIBLE);
-        }else if(stateBattery == 9){
+        } else if (stateBattery == 9) {
             mBatteryGreenLine2.setVisibility(LinearLayout.INVISIBLE);
-        }else if(stateBattery == 10){
+        } else if (stateBattery == 10) {
             mBatteryGreenLine3.setVisibility(LinearLayout.INVISIBLE);
             mMessage.setText("Charge");
-        }else{
-            if(stateBattery2 == 0 && stateBattery > 10){
+        } else {
+            if (stateBattery2 == 0 && stateBattery > 10) {
                 mMessage.setText("Charge");
                 mBatteryYellowLine1.setVisibility(LinearLayout.INVISIBLE);
-            }else if(stateBattery2 == 1){
+            } else if (stateBattery2 == 1) {
                 mBatteryYellowLine1.setVisibility(LinearLayout.VISIBLE);
-            }else if(stateBattery2 == 2){
+            } else if (stateBattery2 == 2) {
                 mBatteryGreenLine3.setVisibility(LinearLayout.VISIBLE);
                 mMessage.setText("OK");
-            }else if(stateBattery2 == 3){
+            } else if (stateBattery2 == 3) {
                 mMessage.setText("Charge");
                 mBatteryGreenLine3.setVisibility(LinearLayout.INVISIBLE);
             }
@@ -130,19 +131,5 @@ public class BatteryActivity extends AppCompatActivity {
         finish();
         super.onPause();
     }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Log.d("Server","on save state");
-        outState.putInt("myStateBattery", stateBattery);
-        outState.putInt("myStateBattery2",stateBattery2);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        stateBattery = savedInstanceState.getInt("myStateBattery");
-        stateBattery2 = savedInstanceState.getInt("mySateBattery2");
-    }
 }
+
