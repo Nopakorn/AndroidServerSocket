@@ -30,4 +30,11 @@ public class Batt3CommonActivity extends AppCompatActivity {
         //finish();
     }
 
+
+    @Override
+    protected void onPause() {
+        handler.removeCallbacks(runBattery);
+        finish();
+        super.onPause();
+    }
 }

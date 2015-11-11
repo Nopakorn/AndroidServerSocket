@@ -54,7 +54,6 @@ public class Batt3Activity extends AppCompatActivity {
         stateBattery = 0;
         handler.post(runBattery);
 
-
     }
     private void updateBattery(){
         if(stateBattery == 0) {
