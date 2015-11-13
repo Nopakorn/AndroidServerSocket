@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 while (true) {
                     Socket socket = serverSocket.accept();
 
-                    //TODO:Get input stream from client
+                    //TODO Get input stream from client
                     InputStreamReader streamReader = new InputStreamReader(socket.getInputStream());
                     BufferedReader reader = new BufferedReader(streamReader);
                     btnName = reader.readLine();
