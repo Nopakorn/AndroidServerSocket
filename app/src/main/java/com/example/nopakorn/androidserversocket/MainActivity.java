@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, Batt4Activity.class);
             startActivity(intent);
 
-        }else if(btn.equals("batteryStart")){
+        }else if(btn.equals("batt5")){
             Intent intent = new Intent(MainActivity.this, BatteryActivity.class);
             startActivity(intent);
 
